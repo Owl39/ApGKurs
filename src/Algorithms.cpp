@@ -1,3 +1,9 @@
+//Project:		 Finding the way by the method of deepening
+//Name:			"Tasks on graphs"
+//Author:		 Svetlichnyi.S.S
+//Date of
+//development:	 15 June, 2022
+
 #include "ApGKurs.h"
 #include "Algoritms.h"
 #include "CurrentPath.h"
@@ -28,17 +34,6 @@ void ShortestWay(QVector<QVector<int>>& matrix, int start, int end, QVector<int>
 		ShortestWay(matrix, i, end, weight, visited);
 	}
 }
-
-/*void ShortestWay(QVector<QVector<int>>& matrix, int start, int end, QVector<int>& weight)
-{
-	Path currentPath;
-	currentPath.from = start;
-	currentPath.to = end;
-	currentPath.line.append(start);
-	QVector<bool> visited(matrix.length(), false);
-	ShortestWayRecursive(matrix, start, end, weight, visited);
-}*/
-
 
 void FindPathesRecursive(QVector<QVector<int>>& matrix, int start, int end, Path currentPath, QVector<Path>& pathes, QVector<bool> visited)
 {

@@ -1,3 +1,9 @@
+//Project:		 Finding the way by the method of deepening
+//Name:			"Tasks on graphs"
+//Author:		 Svetlichnyi.S.S
+//Date of
+//development:	 15 June, 2022
+
 #pragma once
 
 #include <QtWidgets/QMainWindow>
@@ -17,7 +23,6 @@ public:
 
 private:
     QVector<QVector<int>> _matrix;
-
     QVector<Path> _results;
     QVector<CurrentPath> _pathes;
     PaintWidget* _paintWidget;
@@ -25,17 +30,15 @@ private:
     void ShowMessage(QString);
     QVector<int> SplitMatrixLine(QString);
     bool ValidateMatrix();
-    QString PrintMatrix(QVector<QVector<int>> matrix);
+    void PrintMatrix(QVector<QVector<int>> matrix);
     bool GetStart(int& start);
     bool GetStartEnd(int& start, int& end);
  
 private slots:
     void OnReadFile();
     void OnListSelectionChanged();
-
     void OnFindShortestWay();
     void OnFindAllWays();
     void OnFindAllWaysShort();
     void OnFindNoWay();
-    
 };

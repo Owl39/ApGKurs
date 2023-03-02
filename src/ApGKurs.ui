@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1120</width>
+    <width>1043</width>
     <height>639</height>
    </rect>
   </property>
@@ -20,7 +20,7 @@
       <x>220</x>
       <y>10</y>
       <width>783</width>
-      <height>271</height>
+      <height>276</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="mainVerticalLayout">
@@ -47,15 +47,15 @@
            </property>
           </widget>
          </item>
-         <item row="0" column="1">
-          <widget class="QPushButton" name="pushButton">
-           <property name="text">
-            <string>Сохранити файл</string>
-           </property>
-          </widget>
-         </item>
          <item row="1" column="0" colspan="2">
-          <widget class="QTableWidget" name="tableWidget"/>
+          <widget class="QTableWidget" name="tableWidget">
+           <attribute name="horizontalHeaderMinimumSectionSize">
+            <number>24</number>
+           </attribute>
+           <attribute name="verticalHeaderDefaultSectionSize">
+            <number>24</number>
+           </attribute>
+          </widget>
          </item>
         </layout>
        </item>
@@ -65,13 +65,20 @@
       <layout class="QHBoxLayout" name="horizontalLayout_2">
        <item>
         <layout class="QVBoxLayout" name="verticalLayout">
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
          <item>
           <layout class="QGridLayout" name="gridLayout_2">
+           <item row="0" column="0">
+            <widget class="QLabel" name="label">
+             <property name="text">
+              <string>Початкова вершина</string>
+             </property>
+            </widget>
+           </item>
            <item row="1" column="1">
             <widget class="QLineEdit" name="txtVertexTo"/>
-           </item>
-           <item row="1" column="0">
-            <widget class="QLineEdit" name="txtVertexFrom"/>
            </item>
            <item row="0" column="1">
             <widget class="QLabel" name="label_2">
@@ -80,12 +87,8 @@
              </property>
             </widget>
            </item>
-           <item row="0" column="0">
-            <widget class="QLabel" name="label">
-             <property name="text">
-              <string>Початкова вершина</string>
-             </property>
-            </widget>
+           <item row="1" column="0">
+            <widget class="QLineEdit" name="txtVertexFrom"/>
            </item>
           </layout>
          </item>
@@ -153,7 +156,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1120</width>
+     <width>1043</width>
      <height>22</height>
     </rect>
    </property>
@@ -171,7 +174,6 @@
  <layoutdefault spacing="6" margin="11"/>
  <tabstops>
   <tabstop>btnReadFile</tabstop>
-  <tabstop>pushButton</tabstop>
   <tabstop>btnTaskD</tabstop>
  </tabstops>
  <resources>

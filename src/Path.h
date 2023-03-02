@@ -1,3 +1,9 @@
+//Project:		 Finding the way by the method of deepening
+//Name:			"Tasks on graphs"
+//Author:		 Svetlichnyi.S.S
+//Date of
+//development:	 15 June, 2022
+
 #pragma once
 #include <QVector>
 #include <QTextStream>
@@ -8,7 +14,6 @@ struct Path
 	int from = 0;
 	int to = 0;
 	QVector<int> line;
-
 
 	QString toString()
 	{

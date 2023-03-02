@@ -1,3 +1,9 @@
+//Project:		 Finding the way by the method of deepening
+//Name:			"Tasks on graphs"
+//Author:		 Svetlichnyi.S.S
+//Date of
+//development:	 15 June, 2022
+
 #include "ApGKurs.h"
 #include "Algoritms.h"
 #include <QPushButton>
@@ -7,15 +13,10 @@
 #include <QFile>
 #include <QMessageBox>
 
-
-
 ApGKurs::ApGKurs(QWidget* parent)
 	: QMainWindow(parent)
 {
 	ui.setupUi(this);
-
-	//ui.centralWidget->setAutoFillBackground(true);
-	//ui.centralWidget->setBackgroundRole(QPalette::Highlight);
 
 	connect(ui.btnReadFile, SIGNAL(clicked()), SLOT(OnReadFile()));
 	connect(ui.btnTaskA, SIGNAL(clicked()), SLOT(OnFindShortestWay()));
@@ -24,7 +25,12 @@ ApGKurs::ApGKurs(QWidget* parent)
 	connect(ui.btnTaskD, SIGNAL(clicked()), SLOT(OnFindNoWay()));
 	connect(ui.listWidget, SIGNAL(itemSelectionChanged()), SLOT(OnListSelectionChanged()));
 
-	_paintWidget = new PaintWidget(ui.centralWidget);
+	ui.tableWidget->setStyleSheet("QHeaderView::section { background-color:gray }");
+	ui.tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
+	ui.horizontalLayout_3->removeItem(ui.gridLayout);
+	ui.horizontalLayout_3->addLayout(ui.gridLayout, 1);
+
+	_paintWidget = new PaintWidget(this);
 	ui.horizontalLayout_3->addWidget(_paintWidget, 1);
 
 	ui.centralWidget->setLayout(ui.mainVerticalLayout);
@@ -63,8 +69,10 @@ void ApGKurs::OnReadFile()
 		if (ValidateMatrix() == false)
 			_matrix.clear();
 
-		QString str = PrintMatrix(_matrix);
+		PrintMatrix(_matrix);
 		_paintWidget->SetMatrix(_matrix);
+		ui.listWidget->clear();
+		_results.clear();
 	}
 }
 
@@ -114,24 +122,18 @@ bool ApGKurs::ValidateMatrix() {
 	return true;
 }
 
-QString ApGKurs::PrintMatrix(QVector<QVector<int>> matrix) {
-	QString str;
-	QTextStream out(&str);
+void ApGKurs::PrintMatrix(QVector<QVector<int>> matrix) {
 	ui.tableWidget->setColumnCount(matrix.length());
 	ui.tableWidget->setRowCount(matrix.length());
 
 	for (int i = 0; i < matrix.length(); i++) {
 		//ui.tableWidget->insertRow(i);
 		for (int j = 0; j < matrix.length(); j++) {
-			out << matrix[i][j] << "\t";
 			ui.tableWidget->setItem(i, j,
 				new QTableWidgetItem(QString::number(matrix[i][j])));
 		}
-		out << "\n";
 	}
-	return str;
 }
-
 
 void ApGKurs::OnListSelectionChanged() {
 	QList<QListWidgetItem*> list = ui.listWidget->selectedItems();
@@ -162,7 +164,6 @@ void ApGKurs::OnFindShortestWay() {
 
 	QVector<int> weight(_matrix.length(), INFINITE);
 	QVector<bool> visited(_matrix.length(), false);
-	//ShortestWay(_matrix, start, end, weight, visited);
 
 	QVector<Path> pathes;
 	Path path;
@@ -187,7 +188,6 @@ void ApGKurs::OnFindShortestWay() {
 	ui.listWidget->insertItem(index, path.toString());
 }
 
-
 // б) всі можливі шляхи з А в Б
 void ApGKurs::OnFindAllWays() {
 	ui.listWidget->clear();
@@ -207,9 +207,19 @@ void ApGKurs::OnFindAllWays() {
 		_results.append(pathes[i]);
 		ui.listWidget->insertItem(index, pathes[i].toString());
 	}
+
+	if (pathes.length() == 0)
+	{
+		Path path;
+		path.from = start;
+		path.to = end;
+
+		_results.append(path);
+		ui.listWidget->insertItem(0, path.toString());
+	}
 }
 
-// в) всі міста, не пов'язані між собою дорогами
+// в) Мінімальні відстані від А до будь-якого з міст
 void ApGKurs::OnFindAllWaysShort() {
 	ui.listWidget->clear();
 	_results.clear();
@@ -220,8 +230,6 @@ void ApGKurs::OnFindAllWaysShort() {
 		return;
 	}
 
-	int minLength = INFINITE;
-	int endVertex = start;
 	for (int i = 0; i < _matrix.length(); i++) {
 		if (i == start)
 			continue;
@@ -229,24 +237,16 @@ void ApGKurs::OnFindAllWaysShort() {
 		weight[start] = 0;
 		QVector<bool> visited(_matrix.length(), false);
 		ShortestWay(_matrix, start, i, weight, visited);
+		Path path;
+		path.from = start;
+		path.to = i;
 		if (weight[i] != INFINITE)
-		{
-			if (weight[i] < minLength) {
-				minLength = weight[i];
-				endVertex = i;
-			}
-		}
+			path.length = weight[i];
+
+		int index = _results.size();
+		_results.append(path);
+		ui.listWidget->insertItem(index, path.toString());
 	}
-	Path path;
-	path.from = start;
-	path.to = endVertex;
-	if (minLength < INFINITE)
-		path.length = minLength;
-
-	int index = _results.size();
-
-	_results.append(path);
-	ui.listWidget->insertItem(index, path.toString());
 }
 
 // г) всі міста, не пов'язані між собою дорогами
